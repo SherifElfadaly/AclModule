@@ -1,0 +1,12 @@
+{
+	"slug": "Acl",
+	"name": "ACL",
+	"description": "Marvel Access Control List",
+	"version": "1.0",
+	"order": 1,
+	"enabled": true,
+	"dependencies": {
+		"laravel/socialite": "~2.0",
+		 "laravel/test": "~2.0"
+	}
+}
