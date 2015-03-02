@@ -2,7 +2,7 @@
     "slug": "Acl",
     "name": "ACL",
     "description": "Marvel Access Control List",
-    "version": "1.3",
+    "version": "1.4",
     "order": 1,
     "repo_link": "https://github.com/SherifElfadaly/MarvelACL.git",
     "enabled": true
