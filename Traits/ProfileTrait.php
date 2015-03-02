@@ -21,22 +21,17 @@ trait ProfileTrait{
 
 	public function createProfile($data, $userId)
 	{	
-		$this->addProfile($this->getUser($userId), $data);
+		$this->getUser($userId)->profiles()->saveMany($data);
 	}
 
 	public function deleteProfile($id)
 	{	
 		$profile = $this->getProfile($id);
-		return $profile->delete();
+		$profile->delete();
 	}
 
 	public function deleteProfiles($obj)
 	{
-		return $obj->profiles()->delete();
-	}
-
-	public function addProfile($obj, $profiles)
-	{
-		return $obj->profiles()->saveMany($profiles);
+		$obj->profiles()->delete();
 	}
 }

@@ -2,7 +2,7 @@
 
 use App\Modules\Acl\Http\Controllers\AclBaseController;
 use App\Modules\Acl\Repositories\AclRepository;
-use App\Modules\Acl\Http\Requests\ProfileFormRequest;
+use Illuminate\Http\Request;
 
 class ProfileController extends AclBaseController {
 
@@ -44,8 +44,24 @@ class ProfileController extends AclBaseController {
 	 *
 	 * @return Response
 	 */
-	public function postCreate(ProfileFormRequest $request, $id)
+	public function postCreate(Request $request, $id)
 	{
+		foreach ($request->input('key') as $key) 
+		{
+			if (strlen($key) == 0) 
+			{
+				return redirect()->back()->withErrors("Key Required");
+			}
+		}
+
+		foreach ($request->input('value') as $value) 
+		{
+			if (strlen($value) == 0) 
+			{
+				return redirect()->back()->withErrors("Value Required");
+			}
+		}
+
 		$data    = $this->acl->prepareProfileData($request->all());
 		$profile = $this->acl->createProfile($data, $id);
 
