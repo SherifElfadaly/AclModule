@@ -29,9 +29,6 @@ trait PermissionTrait{
 	public function deletePermission($id)
 	{	
 		$permission = $this->getPermission($id);
-		$this->deleteGroups($permission);
-		$this->deleteUsers($permission);
-
 		return $permission->delete();
 	}
 

@@ -29,9 +29,6 @@ trait GroupTrait{
 	public function deleteGroup($id)
 	{	
 		$group = $this->getGroup($id);
-		$this->deletePermissions($group);
-		$this->deleteUsers($group);
-
 		return $group->delete();
 	}
 

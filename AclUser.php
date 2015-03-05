@@ -17,8 +17,25 @@ class AclUser extends User {
 		return $this->belongsToMany('\App\Modules\Acl\Permission', 'users_permissions', 'user_id', 'permission_id')->withTimestamps();
 	}
 
-	public function profiles()
+	public function languageContents()
 	{
-		return $this->hasMany('\App\Modules\Acl\Profile', 'user_id');
+		return $this->hasMany('\App\Modules\Language\LanguageContent', 'item_id');
+	}
+
+	public static function boot()
+	{
+		parent::boot();
+
+		AclUser::deleting(function($user)
+		{
+			foreach ($user->languageContents as  $languageContent) 
+			{
+				$languageContent->languageContentData()->delete();
+			}	
+			$user->languageContents()->delete();
+
+			$user->groups()->detach();
+			$user->permissions()->detach();
+		});
 	}
 }

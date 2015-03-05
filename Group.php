@@ -22,4 +22,15 @@ class Group extends Model {
 	{
 		return $this->belongsToMany('\App\Modules\Acl\Permission', 'groups_permissions', 'group_id', 'permission_id')->withTimestamps();
 	}
+
+	public static function boot()
+	{
+		parent::boot();
+
+		Group::deleting(function($group)
+		{
+			$group->users()->detach();
+			$group->permissions()->detach();
+		});
+	}
 }

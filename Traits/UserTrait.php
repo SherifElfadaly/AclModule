@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Acl\Traits;
 
 use App\Modules\Acl\AclUser;
+use App\Modules\Language\Repositories\LanguageRepository;
 
 trait UserTrait{
 
@@ -27,12 +28,7 @@ trait UserTrait{
 
 	public function deleteUser($id)
 	{	
-		$user = $this->getUser($id);
-
-		$this->deleteGroups($user);
-		$this->deletePermissions($user);
-		$this->deleteProfiles($user);
-
+		$user = $this->getUser($id);$user->delete();
 		return $user->delete();
 	}
 

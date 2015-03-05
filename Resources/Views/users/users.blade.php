@@ -1,4 +1,4 @@
-@extends('Acl::app')
+@extends('app')
 
 @section('content')
 
@@ -22,7 +22,7 @@
 					<td>
 						<a class="btn btn-default" href='{{ url("/Acl/users/edit/$user->id") }}' role="button">Edit</a>
 						<a class="btn btn-default" href='{{ url("/Acl/users/delete/$user->id") }}' role="button">Delete</a>
-						<a class="btn btn-default" href='{{ url("/Acl/profile/show/$user->id") }}' role="button">Profile</a>
+						<a class="btn btn-default" href='{{ url("/language/languagecontents/show/user/$user->id") }}' role="button">Profile</a>
 					</td>
 				</tr>
 				@endforeach

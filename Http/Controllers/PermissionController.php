@@ -7,6 +7,7 @@ use App\Modules\Acl\Http\Requests\PermissionFormRequest;
 
 class PermissionController extends AclBaseController {
 
+
 	/**
 	 * Create new PermissionController instance.
 	 * @param AclRepository

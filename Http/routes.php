@@ -13,20 +13,16 @@
 
 Route::group(['prefix' => 'Acl'], function() {
 
-	//Home Page
-	Route::get('/', 'AclBaseController@index');
-
 	//Social Login
 	Route::get('social/{type?}', 'SocialController@login');
 
 	//Users, Permissions, Groups, Register, Login and Password Pages
 	Route::controllers([
-		'/profile'     => 'ProfileController',
-		'/users'       => 'AclUserController',
-		'/permissions' => 'PermissionController',
-		'/groups'      => 'GroupController',
-		'/password'    => 'Auth\PasswordResetController',
-		'/'            => 'Auth\AuthenticateController',
+		'/users'            => 'AclUserController',
+		'/permissions'      => 'PermissionController',
+		'/groups'           => 'GroupController',
+		'/password'         => 'Auth\PasswordResetController',
+		'/'                 => 'Auth\AuthenticateController',
 		]);
 
 });

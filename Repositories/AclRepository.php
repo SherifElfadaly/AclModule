@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Acl\Repositories;
 
 use App\Modules\Acl\Traits\UserTrait;
-use App\Modules\Acl\Traits\ProfileTrait;
 use App\Modules\Acl\Traits\GroupTrait;
 use App\Modules\Acl\Traits\PermissionTrait;
 use App\Modules\Acl\Group;
@@ -10,7 +9,6 @@ use App\Modules\Acl\AclUser;
 class AclRepository
 {
 	use UserTrait;
-	use ProfileTrait;
 	use GroupTrait;
 	use PermissionTrait;
 
@@ -45,10 +43,5 @@ class AclRepository
 			$response = $permission->key === $permissionName;
 		});
 		return $response;
-	}
-
-	public function getUserProfileData($user_id, $key)
-	{
-		return $this->getUser($user_id)->profiles()->where('key' , $key)->get(['value'])->first()->value;
 	}
 }
