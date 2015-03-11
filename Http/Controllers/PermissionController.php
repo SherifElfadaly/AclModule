@@ -4,6 +4,7 @@ use App\Modules\Acl\Http\Controllers\AclBaseController;
 use App\Modules\Acl\Repositories\AclRepository;
 use App\Modules\Acl\Http\Requests\PermissionFormRequest;
 
+use Illuminate\Http\Request;
 
 class PermissionController extends AclBaseController {
 
@@ -15,9 +16,6 @@ class PermissionController extends AclBaseController {
 	public function __construct(AclRepository $acl)
 	{
 		parent::__construct($acl);
-
-		//If the user is admin.
-		$this->middleware('App\Modules\Acl\Http\Middleware\AclAuthenticate');
 	}
 
 	/**
@@ -29,6 +27,42 @@ class PermissionController extends AclBaseController {
 	{
 		$permissions = $this->acl->getAllPermissions();
 		return view('Acl::permissions.permissions', compact('permissions'));
+	}
+
+	/**
+	 * Display the item permissions.
+	 *
+	 * @return Response
+	 */
+	public function getShow($item, $itemId)
+	{
+		$itemPermissions = $this->acl->getItemPermissions($item, $itemId);
+		$permissions     = $this->acl->getAllPermissions();
+		$groups          = $this->acl->getAllGroups();
+
+		return view('Acl::permissions.itempermissions', compact('permissions', 'groups', 'itemPermissions'));
+	}
+
+	/**
+	 * Save the item permissions.
+	 *
+	 * @return Response
+	 */
+	public function postShow(Request $request, $item, $itemId)
+	{
+		$groupPermissions = array();
+		foreach ($request->except('_token') as $key => $value) 
+		{	
+			$groupPermissions[] = [
+			'group_id'      => explode('_', $key)[0], 
+			'permission_id' => explode('_', $key)[1],
+			'item_id'       => $itemId,
+			'item_type'     => ucfirst($item)
+			];
+		}
+		$this->acl->savePermissions($groupPermissions, $itemId);
+
+		return 	redirect()->back()->with('message', 'Your permissions had been saved');
 	}
 
 	/**
@@ -48,24 +82,11 @@ class PermissionController extends AclBaseController {
 	 */
 	public function postCreate(PermissionFormRequest $request)
 	{
-		$data['key']   = $request->get('key');
-		$data['value'] = $request->get('value') ? 1 : 0;
-		
+		$data['key']   = $request->get('key');		
 		$permission    = $this->acl->createPermission($data);
 
 		return 	redirect()->back()->with('message', 'Your permission had been created');
 	}
-
-	/**
-	 * Display the specified permission.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	/*public function getshow($id)
-	{
-		//
-	}*/
 
 	/**
 	 * Show the form for editing the specified permission.
@@ -89,8 +110,7 @@ class PermissionController extends AclBaseController {
 	{
 		$permission    = $this->acl->getPermission($id);
 		$data['key']   = $request->get('key');
-		$data['value'] = $request->get('value') ? 1 : 0;
-
+		
 		$this->acl->updatetPermission($permission->id, $data);
 
 		return 	redirect()->back()->with('message', 'Your permission had been Updated');

@@ -14,9 +14,6 @@ class GroupController extends AclBaseController {
 	public function __construct(AclRepository $acl)
 	{
 		parent::__construct($acl);
-		
-		//If the user is admin.
-		$this->middleware('App\Modules\Acl\Http\Middleware\AclAuthenticate');
 	}
 
 	/**
@@ -52,9 +49,6 @@ class GroupController extends AclBaseController {
 		$data['is_active']  = $request->get('is_active') ? 1 : 0;
 
 		$group = $this->acl->createGroup($data);
-
-		$this->acl->addPermissions($group, $request->get('group_permissions'));
-
 		return 	redirect()->back()->with('message', 'Your group had been created');
 	}
 
@@ -66,11 +60,8 @@ class GroupController extends AclBaseController {
 	 */
 	public function getEdit($id)
 	{
-		$group             = $this->acl->getGroup($id);
-		$permissions       = $this->acl->getPermissionsWithNoGroup($group->id);
-		$group_permissions = $this->acl->getPermissions($group);
-
-		return view('Acl::groups.editgroup', compact('group', 'permissions', 'group_permissions'));
+		$group = $this->acl->getGroup($id);
+		return view('Acl::groups.editgroup', compact('group', 'permissions'));
 	}
 
 	/**
@@ -86,8 +77,6 @@ class GroupController extends AclBaseController {
 		$data['is_active']  = $request->get('is_active') ? 1 : 0;
 
 		$this->acl->updatetGroup($group->id, $data);
-		$this->acl->addPermissions($group, $request->get('group_permissions'));
-
 		return 	redirect()->back()->with('message', 'Your group had been Updated');
 	}
 

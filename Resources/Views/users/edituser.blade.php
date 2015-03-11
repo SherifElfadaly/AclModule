@@ -54,22 +54,6 @@
 				</div>
 			</div>	
 			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">Permissions</label>
-				<div class="col-sm-10">
-					<select multiple class="form-control" name="user_permissions[]">
-					@foreach($permissions as $permission)
-						<option value="{{ $permission->id }}">{{ $permission->key }}</option>
-					@endforeach
-
-					@foreach($user_permissions as $user_permission)
-					<option value="{{ $user_permission->id }}" selected>
-						{{ $user_permission->key }}
-					</option>
-					@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">Groups</label>
 				<div class="col-sm-10">
 					<select multiple class="form-control" name="user_groups[]">
@@ -77,7 +61,7 @@
 						<option value="{{ $group->id }}">{{ $group->group_name }}</option>
 					@endforeach
 
-					@foreach($user_groups as $user_group)
+					@foreach($user->groups as $user_group)
 					<option value="{{ $user_group->id }}" selected>
 						{{ $user_group->group_name }}
 					</option>

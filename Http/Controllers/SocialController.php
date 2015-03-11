@@ -1,6 +1,5 @@
 <?php namespace App\Modules\Acl\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Modules\Acl\Social;
 

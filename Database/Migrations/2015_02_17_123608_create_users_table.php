@@ -20,11 +20,18 @@ class CreateUsersTable extends Migration
 				$table->string('name');
 				$table->string('email')->unique();
 				$table->string('password', 60);
-				$table->string('user_role')->default('guest');
 				$table->string('activation_key');
 				$table->rememberToken();
 				$table->timestamps();
 			});
+
+			DB::table('users')->insert(
+				array(
+					'name'     => 'admin',
+					'email'    => 'admin@marvel.com',
+					'password' => bcrypt('admin')
+					)
+				);
 		}
 	}
 

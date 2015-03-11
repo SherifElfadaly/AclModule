@@ -20,6 +20,13 @@ class CreateUsersGroupsTable extends Migration
 				$table->integer('group_id');
 				$table->timestamps();
 			});
+			
+			DB::table('users_groups')->insert(
+				array(
+					'user_id'  => '1',
+					'group_id' => '1'
+					)
+				);
 		}
 	}
 

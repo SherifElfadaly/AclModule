@@ -66,16 +66,6 @@
 				</div>
 			</div>	
 			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">Permissions</label>
-				<div class="col-sm-10">
-					<select multiple class="form-control" name="user_permissions[]">
-						@foreach($permissions as $permission)
-						<option value="{{ $permission->id }}">{{ $permission->key }}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">Groups</label>
 				<div class="col-sm-10">
 					<select multiple class="form-control" name="user_groups[]">

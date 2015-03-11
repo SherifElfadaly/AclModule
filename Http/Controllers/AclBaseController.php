@@ -18,17 +18,10 @@ class AclBaseController extends Controller {
 	 */
 	public function __construct(AclRepository $acl)
 	{
-		$this->acl = $acl;
-		$isAdmin   = false;
-
-		//If the user is logged in.
-		if(\Auth::check())
-		{
-			//If the user is admin.
-			$isAdmin = $this->acl->userHasGroup(\Auth::user()->id, 'admin');
-		}
-
-		view()->share('idAdmin', $isAdmin);
+		$this->acl = $acl;	
+		
+		//If the user is admin.
+		$this->middleware('AclAuthenticate');
 	}
 
 	/**

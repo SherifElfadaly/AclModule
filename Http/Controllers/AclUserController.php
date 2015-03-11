@@ -13,9 +13,6 @@ class AclUserController extends AclBaseController {
 	public function __construct(AclRepository $acl)
 	{
 		parent::__construct($acl);
-
-		//If the user is admin.
-		$this->middleware('App\Modules\Acl\Http\Middleware\AclAuthenticate');
 	}
 
 	/**
@@ -54,8 +51,6 @@ class AclUserController extends AclBaseController {
 		$data['password'] = bcrypt($request->get('password'));
 		
 		$user             = $this->acl->createUser($data);
-		
-		$this->acl->addPermissions($user, $request->get('user_permissions'));
 		$this->acl->addGroups($user, $request->get('user_groups'));
 
 		return 	redirect()->back()->with('message', 'Your user had been created');
@@ -70,14 +65,9 @@ class AclUserController extends AclBaseController {
 	public function getEdit($id)
 	{
 		$user             = $this->acl->getUser($id);
-
-		$permissions      = $this->acl->getPermissionsWithNoUser($user->id);
-		$user_permissions = $this->acl->getPermissions($user);
-
 		$groups           = $this->acl->getGroupsWithNoUser($user->id);
-		$user_groups      = $this->acl->getGroups($user);
 
-		return view('Acl::users.edituser', compact('user', 'permissions', 'user_permissions', 'groups', 'user_groups'));
+		return view('Acl::users.edituser', compact('user', 'groups'));
 	}
 
 	/**
@@ -94,8 +84,6 @@ class AclUserController extends AclBaseController {
 		$data['password']  = $request->get('password');
 
 		$this->acl->updatetUser($user->id, $data);
-
-		$this->acl->addPermissions($user, $request->get('user_permissions'));
 		$this->acl->addGroups($user, $request->get('user_groups'));
 
 		return 	redirect()->back()->with('message', 'Your user had been Updated');

@@ -54,22 +54,6 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">Permissions</label>
-				<div class="col-sm-10">
-					<select multiple class="form-control" name="group_permissions[]">
-					@foreach($permissions as $permission)
-						<option value="{{ $permission->id }}">{{ $permission->key }}</option>
-					@endforeach
-
-					@foreach($group_permissions as $group_permission)
-					<option value="{{ $group_permission->id }}" selected>
-						{{ $group_permission->key }}
-					</option>
-					@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" id="group_submit" class="btn btn-default">Submit</button>
 				</div>

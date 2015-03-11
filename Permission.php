@@ -5,13 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model {
 
 	protected $table    = 'permissions';
-	protected $fillable = ['key', 'value'];
-	protected $casts    = ['value' => 'boolean'];
-
-	public function getValueAttribute($value)
-	{
-		return $value ? 'True' : 'False';
-	}
+	protected $fillable = ['key'];
 
 	public function users()
 	{

@@ -43,7 +43,6 @@ class PermissionFormRequest extends Request {
 	{
 		return [
 			'key' => 'required|unique:permissions,id,'.$this->get('id'),
-			'value' => 'required|boolean'
 		];
 	}
 

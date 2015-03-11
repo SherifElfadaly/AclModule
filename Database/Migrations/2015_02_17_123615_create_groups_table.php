@@ -20,6 +20,26 @@ class CreateGroupsTable extends Migration
 				$table->boolean('is_active')->default(0);
 				$table->timestamps();
 			});
+
+			DB::table('groups')->insert([
+				array(
+					'group_name' => 'admin',
+					'is_active'  => '1'
+					),
+				array(
+					'group_name' => 'manager',
+					'is_active'  => '1'
+					),
+				array(
+					'group_name' => 'user',
+					'is_active'  => '1'
+					),
+				array(
+					'group_name' => 'guest',
+					'is_active'  => '1'
+					),
+				]
+				);
 		}
 	}
 

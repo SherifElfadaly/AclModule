@@ -38,11 +38,6 @@ trait GroupTrait{
 		return Group::whereNotIn('id', $ids)->get();
 	}
 
-	public function getGroups($obj)
-	{
-		return $obj->groups;
-	}
-
 	public function addGroups($obj, $data)
 	{
 		$this->deleteGroups($obj);

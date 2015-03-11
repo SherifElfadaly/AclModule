@@ -9,7 +9,6 @@
 				<tr>
 					<th>#</th>
 					<th>Permission Name</th>
-					<th>Permission Value</th>
 					<th>Options</th>
 				</tr>
 			</thead>
@@ -18,7 +17,6 @@
 				<tr>
 					<th scope="row">{{ $permission->id }}</th>
 					<td>{{ $permission->key }}</td>
-					<td>{{ $permission->value }}</td>
 					<td>
 						<a class="btn btn-default" href='{{ url("/Acl/permissions/edit/$permission->id") }}' role="button">Edit</a>
 						<a class="btn btn-default" href='{{ url("/Acl/permissions/delete/$permission->id") }}' role="button">Delete</a>

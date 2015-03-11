@@ -40,15 +40,6 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">Permission Value</label>
-				<div class="col-sm-10">
-					<select class="form-control" name="value" id="permission_value" >
-						<option @if($permission->value === 'True') selected @endif value="1">True</option>
-						<option @if($permission->value !== 'True') selected @endif value="0">False</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" id="permission_submit" class="btn btn-default">Submit</button>
 				</div>

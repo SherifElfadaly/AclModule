@@ -56,6 +56,7 @@ class AclAuthenticate {
 		{
 			return response('Unauthorized.', 401);
 		}
+
 		return $next($request);
 	}
 

@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Acl\Traits;
 
 use App\Modules\Acl\Permission;
+use App\Modules\Acl\Group;
 use DB;
 
 trait PermissionTrait{
@@ -13,6 +14,42 @@ trait PermissionTrait{
 	public function getPermission($id)
 	{
 		return Permission::find($id);
+	}
+
+	public function getItemPermissions($item, $itemId)
+	{
+		return $itemPermissions = DB::table('groups_permissions')->select('group_id', 'permission_id')->
+		whereRaw('item_id=? and item_type=?',[$itemId, $item])->get();
+	}
+
+	public function insertDefaultItemPermissions($item, $itemId)
+	{
+		$groups = Group::whereIn('group_name', ['admin', 'manager', 'user'])->get();
+
+		foreach ($groups as $group) 
+		{
+			if($group->group_name == 'admin')
+			{
+				$group->permissions()->attach(
+					Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
+					['item_id' => $itemId, 'item_type' => $item]
+					);
+			}
+			elseif($group->group_name == 'manager')
+			{
+				$group->permissions()->attach(
+					Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
+					['item_id' => $itemId, 'item_type' => $item]
+					);
+			}
+			elseif($group->group_name == 'user')
+			{
+				$group->permissions()->attach(
+					Permission::whereIn('key', ['show'])->lists('id'), 
+					['item_id' => $itemId, 'item_type' => $item]
+					);
+			}
+		}
 	}
 
 	public function createPermission($data)
@@ -32,36 +69,21 @@ trait PermissionTrait{
 		return $permission->delete();
 	}
 
-	public function getPermissionsWithNoUser($id)
-	{
-		$ids = DB::table('users_permissions')->where('user_id', '=', $id)->lists('permission_id');
-		return Permission::whereNotIn('id', $ids)->get();
+	public function deleteItemPermissions($item, $itemId)
+	{	
+		return DB::table('groups_permissions')->
+					 where('item_id', $itemId)->
+					 where('item_type', ucfirst($item))->delete();
 	}
 
-	public function getPermissionsWithNoGroup($id)
+	public function savePermissions($data, $itemId)
 	{
-		$ids = DB::table('groups_permissions')->where('group_id', '=', $id)->lists('permission_id');
-		return Permission::whereNotIn('id', $ids)->get();
-	}
-
-	public function getPermissions($obj)
-	{
-		return $obj->permissions;
-	}
-
-	public function addPermissions($obj, $data)
-	{
-		$this->deletePermissions($obj);
-		return $obj->permissions()->attach($data);
+		DB::table('groups_permissions')->where('item_id', $itemId)->delete();
+		if($data) DB::table('groups_permissions')->insert($data);
 	}
 
 	public function deletePermissions($obj)
 	{
 		return $obj->permissions()->detach();
-	}
-
-	public function permissionIsActive($id)
-	{
-		return $this->getPermission($id)->value;
 	}
 }

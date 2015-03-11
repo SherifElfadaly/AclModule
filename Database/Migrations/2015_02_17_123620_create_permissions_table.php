@@ -17,9 +17,21 @@ class CreatePermissionsTable extends Migration
 			Schema::create('permissions', function(Blueprint $table) {
 				$table->increments('id');
 				$table->string('key');
-				$table->boolean('value')->default(0);
 				$table->timestamps();
 			});
+
+			DB::table('groups')->insert([
+				array(
+					'key' => 'show',
+					),
+				array(
+					'key' => 'edit',
+					),
+				array(
+					'key' => 'delete',
+					),
+				]
+				);
 		}
 	}
 

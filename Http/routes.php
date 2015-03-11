@@ -10,7 +10,6 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
 Route::group(['prefix' => 'Acl'], function() {
 
 	//Social Login
