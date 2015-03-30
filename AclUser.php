@@ -12,15 +12,15 @@ class AclUser extends User {
 		return $this->belongsToMany('\App\Modules\Acl\Group', 'users_groups', 'user_id', 'group_id')->withTimestamps();
 	}
 
-	public function permissions()
-	{
-		return $this->belongsToMany('\App\Modules\Acl\Permission', 'users_permissions', 'user_id', 'permission_id')->withTimestamps();
-	}
-
 	public function languageContents()
 	{
 		return $this->hasMany('\App\Modules\Language\LanguageContent', 'item_id');
 	}
+
+	public function contents()
+    {
+        return $this->hasMany('App\Modules\Content\ContentItems', 'user_id');
+    }
 
 	public static function boot()
 	{
@@ -28,14 +28,10 @@ class AclUser extends User {
 
 		AclUser::deleting(function($user)
 		{
-			foreach ($user->languageContents as  $languageContent) 
-			{
-				$languageContent->languageContentData()->delete();
-			}	
-			$user->languageContents()->delete();
-
+			$user->contents()->delete();
 			$user->groups()->detach();
-			$user->permissions()->detach();
+
+			\LanguageRepository::deleteItemLanguageContents('user', $user->id);
 		});
 	}
 }

@@ -2,6 +2,8 @@
 
 use App\Modules\Acl\Repositories\AclRepository;
 use Illuminate\Contracts\Auth\Guard;
+
+use InstallationRepository;
 use Closure;
 
 class AclAuthenticate {
@@ -54,7 +56,7 @@ class AclAuthenticate {
 		}
 		elseif ( ! $this->aclRepo->userHasGroup(\Auth::user()->id, 'admin')) 
 		{
-			return response('Unauthorized.', 401);
+			return redirect(InstallationRepository::getActiveTheme()->module_key);
 		}
 
 		return $next($request);

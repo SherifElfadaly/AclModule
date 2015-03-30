@@ -8,7 +8,7 @@ trait PermissionTrait{
 
 	public function getAllPermissions()
 	{
-		return Permission::all();
+		return Permission::with('groups')->get();
 	}
 
 	public function getPermission($id)
@@ -16,40 +16,48 @@ trait PermissionTrait{
 		return Permission::find($id);
 	}
 
+	public function getUserItemPermissions($item, $itemId, $user)
+	{
+		return Permission::whereIn('id', DB::table('groups_permissions')->
+			                             whereRaw('item_id=? and item_type=?', [$itemId, ucfirst($item)])->
+			                             whereIn('group_id', $user->groups->lists('id'))->
+			                             lists('permission_id'))->lists('key');
+	}
 	public function getItemPermissions($item, $itemId)
 	{
-		return $itemPermissions = DB::table('groups_permissions')->select('group_id', 'permission_id')->
-		whereRaw('item_id=? and item_type=?',[$itemId, $item])->get();
+		return DB::table('groups_permissions')->
+		       select('group_id', 'permission_id')->
+		       whereRaw('item_id=? and item_type=?', [$itemId, ucfirst($item)])->get();
 	}
 
 	public function insertDefaultItemPermissions($item, $itemId)
 	{
-		$groups = Group::whereIn('group_name', ['admin', 'manager', 'user'])->get();
-
-		foreach ($groups as $group) 
-		{
-			if($group->group_name == 'admin')
-			{
-				$group->permissions()->attach(
-					Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
-					['item_id' => $itemId, 'item_type' => $item]
-					);
-			}
-			elseif($group->group_name == 'manager')
-			{
-				$group->permissions()->attach(
-					Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
-					['item_id' => $itemId, 'item_type' => $item]
-					);
-			}
-			elseif($group->group_name == 'user')
-			{
-				$group->permissions()->attach(
-					Permission::whereIn('key', ['show'])->lists('id'), 
-					['item_id' => $itemId, 'item_type' => $item]
-					);
-			}
-		}
+		$item = ucfirst($item);
+		Group::with('permissions')->
+		       whereIn('group_name', ['admin', 'manager', 'user'])->
+		       get()->each(function($group) use ($item, $itemId){
+		       	if($group->group_name == 'admin')
+		       	{
+		       		$group->permissions()->attach(
+		       			Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
+		       			['item_id' => $itemId, 'item_type' => $item]
+		       			);
+		       	}
+		       	elseif($group->group_name == 'manager')
+		       	{
+		       		$group->permissions()->attach(
+		       			Permission::whereIn('key', ['show', 'edit', 'delete'])->lists('id'), 
+		       			['item_id' => $itemId, 'item_type' => $item]
+		       			);
+		       	}
+		       	elseif($group->group_name == 'user')
+		       	{
+		       		$group->permissions()->attach(
+		       			Permission::whereIn('key', ['show'])->lists('id'), 
+		       			['item_id' => $itemId, 'item_type' => $item]
+		       			);
+		       	}
+		});
 	}
 
 	public function createPermission($data)
@@ -72,18 +80,16 @@ trait PermissionTrait{
 	public function deleteItemPermissions($item, $itemId)
 	{	
 		return DB::table('groups_permissions')->
-					 where('item_id', $itemId)->
-					 where('item_type', ucfirst($item))->delete();
+		       where('item_id', $itemId)->
+		       where('item_type', ucfirst($item))->delete();
 	}
 
-	public function savePermissions($data, $itemId)
+	public function savePermissions($data, $item, $itemId)
 	{
-		DB::table('groups_permissions')->where('item_id', $itemId)->delete();
-		if($data) DB::table('groups_permissions')->insert($data);
-	}
-
-	public function deletePermissions($obj)
-	{
-		return $obj->permissions()->detach();
+		if($data)
+		{
+			$this->deleteItemPermissions($item, $itemId);
+			DB::table('groups_permissions')->insert($data);
+		}
 	}
 }

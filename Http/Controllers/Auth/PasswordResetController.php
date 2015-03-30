@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\PasswordController;
 
 class PasswordResetController extends PasswordController {
 
-	protected $redirectPath = '/';
+	protected $redirectPath = 'Acl/login';
 
 	public function getEmail()
 	{

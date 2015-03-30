@@ -15,12 +15,17 @@ class CreateGroupsPermissionsTable extends Migration
 		if ( ! Schema::hasTable('groups_permissions'))
 		{
 			Schema::create('groups_permissions', function(Blueprint $table) {
-				$table->increments('id');
-				$table->integer('group_id');
-				$table->integer('permission_id');
-				$table->integer('item_id');
-				$table->string('item_type');
-				$table->boolean('value')->default(0);
+				$table->bigIncrements('id');
+
+				$table->bigInteger('group_id')->unsigned();
+				$table->foreign('group_id')->references('id')->on('groups');
+
+				$table->bigInteger('permission_id')->unsigned();
+				$table->foreign('permission_id')->references('id')->on('permissions');
+
+				$table->bigInteger('item_id')->unsigned();
+				$table->string('item_type', 100)->index();
+
 				$table->timestamps();
 			});
 		}

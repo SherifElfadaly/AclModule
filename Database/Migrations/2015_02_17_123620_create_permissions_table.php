@@ -15,12 +15,12 @@ class CreatePermissionsTable extends Migration
 		if ( ! Schema::hasTable('permissions'))
 		{
 			Schema::create('permissions', function(Blueprint $table) {
-				$table->increments('id');
-				$table->string('key');
+				$table->bigIncrements('id');
+				$table->string('key', 100)->index();
 				$table->timestamps();
 			});
 
-			DB::table('groups')->insert([
+			DB::table('permissions')->insert([
 				array(
 					'key' => 'show',
 					),

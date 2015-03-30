@@ -7,7 +7,7 @@ trait GroupTrait{
 
 	public function getAllGroups()
 	{
-		return Group::all();
+		return Group::with(['users', 'permissions'])->get();
 	}
 
 	public function getGroup($id)

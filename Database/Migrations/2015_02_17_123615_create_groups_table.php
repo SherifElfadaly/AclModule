@@ -15,8 +15,8 @@ class CreateGroupsTable extends Migration
 		if ( ! Schema::hasTable('groups'))
 		{
 			Schema::create('groups', function(Blueprint $table) {
-				$table->increments('id');
-				$table->string('group_name');
+				$table->bigIncrements('id');
+				$table->string('group_name', 100)->index();
 				$table->boolean('is_active')->default(0);
 				$table->timestamps();
 			});

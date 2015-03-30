@@ -1,18 +1,18 @@
 <?php namespace App\Modules\Acl\Traits;
 
 use App\Modules\Acl\AclUser;
-use App\Modules\Language\Repositories\LanguageRepository;
+use \LanguageRepository;
 
 trait UserTrait{
 
 	public function getAllUsers()
 	{
-		return AclUser::all();
+		return AclUser::with(['groups', 'contents', 'languageContents'])->get();
 	}
 
 	public function getUser($id)
 	{
-		return AclUser::find($id);
+		return AclUser::with(['groups', 'contents', 'languageContents'])->find($id);
 	}
 
 	public function createUser($data)
@@ -32,13 +32,14 @@ trait UserTrait{
 		return $user->delete();
 	}
 
-	public function deleteUsers($obj)
-	{
-		return $obj->users()->detach();
-	}
-
 	public function findUserByEmail($email)
 	{
 		return AclUser::whereEmail($email)->first();
+	}
+
+	public function search($query)
+	{	
+		return AclUser::whereIn('id', LanguageRepository::search($query))->
+		orWhere('name', 'like', '%' . $query . '%')->lists('id');
 	}
 }

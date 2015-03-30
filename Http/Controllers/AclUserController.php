@@ -1,6 +1,5 @@
 <?php namespace App\Modules\Acl\Http\Controllers;
 
-use App\Modules\Acl\Http\Controllers\AclBaseController;
 use App\Modules\Acl\Repositories\AclRepository;
 use App\Modules\Acl\Http\Requests\UserFormRequest;
 

@@ -7,14 +7,11 @@ class Permission extends Model {
 	protected $table    = 'permissions';
 	protected $fillable = ['key'];
 
-	public function users()
-	{
-		return $this->belongsToMany('\App\Modules\Acl\AclUser', 'users_permissions', 'permission_id', 'user_id')->withTimestamps();
-	}
-
 	public function groups()
 	{
-		return $this->belongsToMany('\App\Modules\Acl\Group', 'groups_permissions', 'permission_id', 'group_id')->withTimestamps();
+		return $this->belongsToMany('\App\Modules\Acl\Group', 'groups_permissions', 'permission_id', 'group_id')->
+		withPivot('item_id', 'item_type')->
+		withTimestamps();
 	}
 
 	public static function boot()

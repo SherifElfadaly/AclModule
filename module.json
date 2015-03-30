@@ -1,8 +1,9 @@
 {
     "name": "ACL",
-    "slug": "Acl",
-    "version": "1.1",
+    "slug": "acl",
+    "version": "1.2",
     "description": "Marvel Access Control List",
     "repo_link": "https:\/\/github.com\/SherifElfadaly\/MarvelACL.git",
+    "type" : "plugin",
     "enabled": true
 }

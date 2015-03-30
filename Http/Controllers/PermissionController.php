@@ -60,7 +60,7 @@ class PermissionController extends AclBaseController {
 			'item_type'     => ucfirst($item)
 			];
 		}
-		$this->acl->savePermissions($groupPermissions, $itemId);
+		$this->acl->savePermissions($groupPermissions, $item, $itemId);
 
 		return 	redirect()->back()->with('message', 'Your permissions had been saved');
 	}
