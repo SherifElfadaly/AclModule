@@ -53,4 +53,13 @@ trait GroupTrait{
 	{
 		return	$this->getGroup($id)->is_active;
 	}
+
+	public function checkForAdmins()
+	{
+		$users = 0;
+		Group::where('group_name', '=', 'admin')->get()->each(function($group) use(&$users){
+			$users += $group->users->count();
+		});
+		return $users;
+	}
 }

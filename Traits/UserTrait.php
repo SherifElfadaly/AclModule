@@ -20,7 +20,7 @@ trait UserTrait{
 		return AclUser::create($data);
 	}
 
-	public function updatetUser($id, $data)
+	public function updateUser($id, $data)
 	{
 		$user = $this->getUser($id);
 		return $user->update($data);

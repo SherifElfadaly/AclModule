@@ -82,7 +82,7 @@ class AclUserController extends AclBaseController {
 		$data['email']     = $request->get('email');
 		$data['password']  = $request->get('password');
 
-		$this->acl->updatetUser($user->id, $data);
+		$this->acl->updateUser($user->id, $data);
 		$this->acl->addGroups($user, $request->get('user_groups'));
 
 		return 	redirect()->back()->with('message', 'Your user had been Updated');
