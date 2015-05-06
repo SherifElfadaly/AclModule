@@ -30,8 +30,7 @@ class GroupFormRequest extends Request {
 	 */
 	public function authorize()
 	{
-		//If the user is admin
-		return $this->aclRepo->userHasGroup(\Auth::user()->id, 'admin');
+		return true;
 	}
 
 	/**

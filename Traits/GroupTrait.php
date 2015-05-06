@@ -32,12 +32,6 @@ trait GroupTrait{
 		return $group->delete();
 	}
 
-	public function getGroupsWithNoUser($id)
-	{
-		$ids = DB::table('users_groups')->where('user_id', '=', $id)->lists('group_id');
-		return Group::whereNotIn('id', $ids)->get();
-	}
-
 	public function addGroups($obj, $data)
 	{
 		$this->deleteGroups($obj);
@@ -56,10 +50,6 @@ trait GroupTrait{
 
 	public function checkForAdmins()
 	{
-		$users = 0;
-		Group::where('group_name', '=', 'admin')->get()->each(function($group) use(&$users){
-			$users += $group->users->count();
-		});
-		return $users;
+		return Group::where('group_name', '=', 'admin')->first()->users()->count();
 	}
 }

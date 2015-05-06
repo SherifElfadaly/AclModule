@@ -38,8 +38,8 @@ trait UserTrait{
 	}
 
 	public function search($query)
-	{	
+	{
 		return AclUser::whereIn('id', LanguageRepository::search($query))->
-		orWhere('name', 'like', '%' . $query . '%')->lists('id');
+		                orWhere('name', 'like', '%' . $query . '%')->lists('id');
 	}
 }

@@ -22,13 +22,16 @@ class CreatePermissionsTable extends Migration
 
 			DB::table('permissions')->insert([
 				array(
-					'key' => 'show',
+					'key'  => 'show',
 					),
 				array(
-					'key' => 'edit',
+					'key'  => 'add',
 					),
 				array(
-					'key' => 'delete',
+					'key'  => 'edit',
+					),
+				array(
+					'key'  => 'delete',
 					),
 				]
 				);

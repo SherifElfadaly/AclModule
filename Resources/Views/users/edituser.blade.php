@@ -57,15 +57,13 @@
 				<label for="inputPassword3" class="col-sm-2 control-label">Groups</label>
 				<div class="col-sm-10">
 					<select multiple class="form-control" name="user_groups[]">
-					@foreach($groups as $group)
-						<option value="{{ $group->id }}">{{ $group->group_name }}</option>
-					@endforeach
-
-					@foreach($user->groups as $user_group)
-					<option value="{{ $user_group->id }}" selected>
-						{{ $user_group->group_name }}
-					</option>
-					@endforeach
+						@foreach($groups as $group)
+							@if(in_array($group->id, $user->groups->lists('id')))
+								<option value="{{ $group->id }}" selected>{{ $group->group_name }}</option>
+							@else
+								<option value="{{ $group->id }}">{{ $group->group_name }}</option>
+							@endif
+						@endforeach
 					</select>
 				</div>
 			</div>

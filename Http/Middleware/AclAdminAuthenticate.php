@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Guard;
 use InstallationRepository;
 use Closure;
 
-class AclAuthenticate {
+class AclAdminAuthenticate {
 
 	/**
 	 * The AclRepository implementation.
@@ -55,7 +55,11 @@ class AclAuthenticate {
 				return redirect()->guest('Acl/login');
 			}
 		}
-		
+		elseif ( ! $this->aclRepo->userHasGroup(\Auth::user()->id, 'admin')) 
+		{
+			abort(403, 'Unauthorized');
+		}
+
 		return $next($request);
 	}
 }

@@ -1,9 +1,10 @@
 <?php namespace App\Modules\Acl\Http\Controllers;
 
+use App\Http\Controllers\BaseController;
 use App\Modules\Acl\Repositories\AclRepository;
 use App\Modules\Acl\Http\Requests\UserFormRequest;
 
-class AclUserController extends AclBaseController {
+class AclUserController extends BaseController {
 
 	/**
 	 * Create new AclUserController instance.
@@ -11,7 +12,7 @@ class AclUserController extends AclBaseController {
 	 */
 	public function __construct(AclRepository $acl)
 	{
-		parent::__construct($acl);
+		parent::__construct($acl, 'Users');
 	}
 
 	/**
@@ -21,8 +22,10 @@ class AclUserController extends AclBaseController {
 	 */
 	public function getIndex()
 	{
-		$users = $this->acl->getAllUsers();
-		return view('Acl::users.users', compact('users'));
+		$this->hasPermission('show');
+		$users = $this->repository->getAllUsers();
+
+		return view('Acl::users.users', compact('users', 'userPermissions'));
 	}
 
 	/**
@@ -32,27 +35,29 @@ class AclUserController extends AclBaseController {
 	 */
 	public function getCreate()
 	{
-		$permissions = $this->acl->getAllPermissions();
-		$groups      = $this->acl->getAllGroups();
+		$this->hasPermission('add');
+		$groups = $this->repository->getAllGroups();
 
-		return view('Acl::users.adduser', compact('permissions', 'groups'));
+		return view('Acl::users.adduser', compact('groups'));
 	}
 
 	/**
 	 * Store a newly created user in storage.
 	 *
+	 * @param  UserFormRequest  $request
 	 * @return Response
 	 */
 	public function postCreate(UserFormRequest $request)
 	{
+		$this->hasPermission('add');
 		$data['name']     = $request->get('name');
 		$data['email']    = $request->get('email');
 		$data['password'] = bcrypt($request->get('password'));
 		
-		$user             = $this->acl->createUser($data);
-		$this->acl->addGroups($user, $request->get('user_groups'));
+		$user             = $this->repository->createUser($data);
+		$this->repository->addGroups($user, $request->get('user_groups'));
 
-		return 	redirect()->back()->with('message', 'Your user had been created');
+		return 	redirect()->back()->with('message', 'User had been created');
 	}
 
 	/**
@@ -63,10 +68,15 @@ class AclUserController extends AclBaseController {
 	 */
 	public function getEdit($id)
 	{
-		$user             = $this->acl->getUser($id);
-		$groups           = $this->acl->getGroupsWithNoUser($user->id);
+		if( ! \AclRepository::userHasGroup($id, 'admin') && \Auth::user()->id !== $id)
+		{
+			$this->hasPermission('edit');
+			$user   = $this->repository->getUser($id);
+			$groups = $this->repository->getAllGroups();
 
-		return view('Acl::users.edituser', compact('user', 'groups'));
+			return view('Acl::users.edituser', compact('user', 'groups'));
+		}
+		return 	redirect()->back();
 	}
 
 	/**
@@ -77,15 +87,20 @@ class AclUserController extends AclBaseController {
 	 */
 	public function postEdit($id, UserFormRequest $request)
 	{	
-		$user              = $this->acl->getUser($id);
-		$data['name']      = $request->get('name');
-		$data['email']     = $request->get('email');
-		$data['password']  = $request->get('password');
+		if( ! \AclRepository::userHasGroup($id, 'admin') && \Auth::user()->id !== $id)
+		{
+			$this->hasPermission('edit');
+			$user              = $this->repository->getUser($id);
+			$data['name']      = $request->get('name');
+			$data['email']     = $request->get('email');
+			$data['password']  = $request->get('password');
 
-		$this->acl->updateUser($user->id, $data);
-		$this->acl->addGroups($user, $request->get('user_groups'));
+			$this->repository->updateUser($user->id, $data);
+			$this->repository->addGroups($user, $request->get('user_groups'));
 
-		return 	redirect()->back()->with('message', 'Your user had been Updated');
+			return 	redirect()->back()->with('message', 'User had been Updated');
+		}
+		return 	redirect()->back();
 	}
 
 	/**
@@ -95,9 +110,12 @@ class AclUserController extends AclBaseController {
 	 * @return Response
 	 */
 	public function getDelete($id)
-	{
-		$this->acl->deleteUser($id);
+	{		
+		if( ! \AclRepository::userHasGroup($id, 'admin') && \Auth::user()->id !== $id)
+		{
+			$this->hasPermission('delete');
+			$this->repository->deleteUser($id);
+		}
 		return 	redirect()->back();
 	}
-
 }

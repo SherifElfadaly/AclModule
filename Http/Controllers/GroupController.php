@@ -1,11 +1,10 @@
 <?php namespace App\Modules\Acl\Http\Controllers;
 
-use App\Modules\Acl\Http\Controllers\AclBaseController;
+use App\Http\Controllers\BaseController;
 use App\Modules\Acl\Repositories\AclRepository;
 use App\Modules\Acl\Http\Requests\GroupFormRequest;
 
-
-class GroupController extends AclBaseController {
+class GroupController extends BaseController {
 
 	/**
 	 * Create new GroupController instance.
@@ -13,7 +12,7 @@ class GroupController extends AclBaseController {
 	 */
 	public function __construct(AclRepository $acl)
 	{
-		parent::__construct($acl);
+		parent::__construct($acl, 'Groups');
 	}
 
 	/**
@@ -23,7 +22,9 @@ class GroupController extends AclBaseController {
 	 */
 	public function getIndex()
 	{
-		$groups = $this->acl->getAllGroups();
+		$this->hasPermission('show');
+		$groups = $this->repository->getAllGroups();
+
 		return view('Acl::groups.groups', compact('groups'));
 	}
 
@@ -34,7 +35,9 @@ class GroupController extends AclBaseController {
 	 */
 	public function getCreate()
 	{
-		$permissions = $this->acl->getAllPermissions();
+		$this->hasPermission('add');
+		$permissions = $this->repository->getAllPermissions();
+
 		return view('Acl::groups.addgroup', compact('permissions'));
 	}
 
@@ -45,11 +48,12 @@ class GroupController extends AclBaseController {
 	 */
 	public function postCreate(GroupFormRequest $request)
 	{
+		$this->hasPermission('add');
 		$data['group_name'] = $request->get('group_name');
 		$data['is_active']  = $request->get('is_active') ? 1 : 0;
 
-		$group = $this->acl->createGroup($data);
-		return 	redirect()->back()->with('message', 'Your group had been created');
+		$group = $this->repository->createGroup($data);
+		return 	redirect()->back()->with('message', 'Group had been created');
 	}
 
 	/**
@@ -60,7 +64,9 @@ class GroupController extends AclBaseController {
 	 */
 	public function getEdit($id)
 	{
-		$group = $this->acl->getGroup($id);
+		$this->hasPermission('edit');
+		$group = $this->repository->getGroup($id);
+
 		return view('Acl::groups.editgroup', compact('group', 'permissions'));
 	}
 
@@ -72,12 +78,14 @@ class GroupController extends AclBaseController {
 	 */
 	public function postEdit($id, GroupFormRequest $request)
 	{
-		$group              = $this->acl->getGroup($id);
+		$this->hasPermission('edit');
+		$group              = $this->repository->getGroup($id);
 		$data['group_name'] = $request->get('group_name');
 		$data['is_active']  = $request->get('is_active') ? 1 : 0;
 
-		$this->acl->updatetGroup($group->id, $data);
-		return 	redirect()->back()->with('message', 'Your group had been Updated');
+		$this->repository->updatetGroup($group->id, $data);
+
+		return 	redirect()->back()->with('message', 'Group had been Updated');
 	}
 
 	/**
@@ -88,7 +96,9 @@ class GroupController extends AclBaseController {
 	 */
 	public function getDelete($id)
 	{
-		$this->acl->deleteGroup($id);
+		$this->hasPermission('delete');		
+		$this->repository->deleteGroup($id);
+
 		return 	redirect()->back();
 	}
 

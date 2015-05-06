@@ -12,23 +12,21 @@ class AclRepository
 
 	public function userHasGroup($user_id, $groupName)
 	{
-		$groups   = $this->getUser($user_id)->groups;
-		$response = false;
-		
-		$groups->each(function($group) use ($groupName, &$response){
-			$response = $group->group_name === $groupName;
-		});
-		return $response;
+		$groups   = $this->getUser($user_id)->groups->lists('group_name');
+		if (in_array($groupName, $groups)) 
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public function groupHasPermission($group_id, $permissionName)
 	{
-		$permissions = $this->getGroup($group_id)->permissions;
-		$response    = false;
-
-		$permissions->each(function($permission) use ($permissionName, &$response){
-			$response = $permission->key === $permissionName;
-		});
-		return $response;
+		$permissions = $this->getGroup($group_id)->permissions->lists('key');
+		if (in_array($permissionName, $permissions)) 
+		{
+			return true;
+		}
+		return false;
 	}
 }

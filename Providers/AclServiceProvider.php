@@ -26,7 +26,7 @@ class AclServiceProvider extends ServiceProvider
 		{
 			return new App\Modules\Acl\Repositories\AclRepository;
 		});
-
+		
 		$this->registerNamespaces();
 	}
 

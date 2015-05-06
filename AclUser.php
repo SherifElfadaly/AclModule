@@ -7,6 +7,10 @@ class AclUser extends User {
 
 	protected $fillable = ['name', 'email', 'password'];
 
+	public function getUserGroupsAttribute()
+	{
+		return implode('|', $this->groups->lists('group_name'));
+	}
 	public function groups()
 	{
 		return $this->belongsToMany('\App\Modules\Acl\Group', 'users_groups', 'user_id', 'group_id')->withTimestamps();

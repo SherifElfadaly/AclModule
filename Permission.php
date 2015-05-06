@@ -10,8 +10,8 @@ class Permission extends Model {
 	public function groups()
 	{
 		return $this->belongsToMany('\App\Modules\Acl\Group', 'groups_permissions', 'permission_id', 'group_id')->
-		withPivot('item_id', 'item_type')->
-		withTimestamps();
+		              withPivot('item_id', 'item_type')->
+		              withTimestamps();
 	}
 
 	public static function boot()

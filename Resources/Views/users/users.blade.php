@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 
 <div class="container">
@@ -10,19 +9,38 @@
 					<th>#</th>
 					<th>User Name</th>
 					<th>User Email</th>
+					<th>User Groups</th>
 					<th>Options</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach($users as $user)
 				<tr>
-					<th scope="row">{{ $user->id }}</th>
+					<th>{{ $user->id }}</th>
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
+					<td>{{ $user->user_groups }}</td>
 					<td>
-						<a class="btn btn-default" href='{{ url("/Acl/users/edit/$user->id") }}' role="button">Edit</a>
-						<a class="btn btn-default" href='{{ url("/Acl/users/delete/$user->id") }}' role="button">Delete</a>
-						<a class="btn btn-default" href='{{ url("/language/languagecontents/show/user/$user->id") }}' role="button">Profile</a>
+						@if( ! \AclRepository::userHasGroup($user->id, 'admin') && 
+								\AclRepository::can('edit', 'Users') && 
+								\Auth::user()->id !== $user->id)
+							<a 
+							class ="btn btn-default" 
+							href  ='{{ url("/Acl/users/edit/$user->id") }}' 
+							role  ="button">
+							Edit
+							</a>
+						@endif
+						@if( ! \AclRepository::userHasGroup($user->id, 'admin') && 
+								\AclRepository::can('delete', 'Users') && 
+								\Auth::user()->id !== $user->id)
+							<a 
+							class ="btn btn-default" 
+							href  ='{{ url("/Acl/users/delete/$user->id") }}' 
+							role  ="button">
+							Delete
+							</a>
+						@endif
 					</td>
 				</tr>
 				@endforeach

@@ -30,9 +30,12 @@
 						@foreach($permissions as $permission)
 										<td>
 										<input 
-										type="checkbox" 
-										id="allowed" 
-										name="{{ $group->id }}_{{ $permission->id }}" 
+										type ="checkbox" 
+										id   ="allowed" 
+										name ="{{ $group->id }}_{{ $permission->id }}" 
+										@if($group->group_name === 'admin')
+											onclick="return false"
+										@endif
 										@foreach($itemPermissions as $itemPermission)
 											@if($permission->id == $itemPermission->permission_id && 
 												$group->id == $itemPermission->group_id)
@@ -47,7 +50,7 @@
 					@endforeach
 				</tbody>
 			</table>
-			<input type="submit" class="btn btn-default" role="button">
+			<input type="submit" class="btn btn-default" role="button" value="Save">
 		</form>
 	</div>
 </div>

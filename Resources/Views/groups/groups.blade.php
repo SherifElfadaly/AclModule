@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 
 <div class="container">
@@ -16,12 +15,26 @@
 			<tbody>
 				@foreach($groups as $group)
 				<tr>
-					<th scope="row">{{ $group->id }}</th>
+					<th>{{ $group->id }}</th>
 					<td>{{ $group->group_name }}</td>
 					<td>{{ $group->is_active }}</td>
 					<td>
-						<a class="btn btn-default" href='{{ url("/Acl/groups/edit/$group->id") }}' role="button">Edit</a>
-						<a class="btn btn-default" href='{{ url("/Acl/groups/delete/$group->id") }}' role="button">Delete</a>
+						@if(\AclRepository::can('edit', 'Groups'))
+							<a 
+							class ="btn btn-default" 
+							href  ='{{ url("/Acl/groups/edit/$group->id") }}' 
+							role  ="button">
+							Edit
+							</a>
+						@endif
+						@if(\AclRepository::can('delete', 'Groups'))
+							<a 
+							class ="btn btn-default" 
+							href  ='{{ url("/Acl/groups/delete/$group->id") }}' 
+							role  ="button">
+							Delete
+							</a>
+						@endif
 					</td>
 				</tr>
 				@endforeach
