@@ -1,55 +1,51 @@
 <?php namespace App\Modules\Acl\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Modules\Acl\Repositories\AclRepository;
-
 use Illuminate\Http\Request;
 
 class PermissionController extends BaseController {
 
+	/**
+	 * Specify that this controller should be 
+	 * accessed by the admin users only.
+	 * @var adminOnly
+	 */
+	protected $adminOnly = true;
 
 	/**
 	 * Create new PermissionController instance.
-	 * @param AclRepository
 	 */
-	public function __construct(AclRepository $acl)
+	public function __construct()
 	{
-		parent::__construct($acl, 'Permissions');
-		$this->middleware('AclAdminAuthenticate');
+		parent::__construct('Permissions');
 	}
 
 	/**
 	 * Display the item permissions.
-	 *
+	 * 
+	 * @param  string $item
+	 * @param  integer $itemId
 	 * @return Response
 	 */
 	public function getShow($item, $itemId)
 	{
-		$itemPermissions = $this->repository->getItemPermissions($item, $itemId);
-		$permissions     = $this->repository->getAllPermissions($item);
-		$groups          = $this->repository->getAllGroups();
+		$itemPermissions = \CMS::permissions()->getItemPermissions($item, $itemId);
+		$permissions     = \CMS::permissions()->getAllItemsPermissions($item);
+		$groups          = \CMS::groups()->all();
 		return view('Acl::permissions.itempermissions', compact('permissions', 'groups', 'itemPermissions'));
 	}
 
 	/**
 	 * Save the item permissions.
-	 *
+	 * 
+	 * @param  Request $request
+	 * @param  string  $item
+	 * @param  itneger  $itemId
 	 * @return Response
 	 */
 	public function postShow(Request $request, $item, $itemId)
 	{
-		$groupPermissions = array();
-		foreach ($request->except('_token') as $key => $value) 
-		{	
-			$groupPermissions[] = [
-			'group_id'      => explode('_', $key)[0], 
-			'permission_id' => explode('_', $key)[1],
-			'item_id'       => $itemId,
-			'item_type'     => $item
-			];
-		}
-		$this->repository->savePermissions($groupPermissions, $item, $itemId);
-
+		\CMS::permissions()->savePermissions($request->except('_token'), $item, $itemId);
 		return 	redirect()->back()->with('message', 'Your permissions had been saved');
 	}
 }

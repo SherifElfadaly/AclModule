@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class GroupFormRequest extends Request {
+class EditUserFormRequest extends Request {
 	
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class GroupFormRequest extends Request {
 	public function rules()
 	{
 		return [
-			'group_name' => 'required|max:50|alpha_dash|unique:groups,id,'.$this->get('id')
+			'name'     => 'required|max:50|alpha_dash',
+			'email'    => 'required|max:100|email|unique:users,id,'.$this->get('id'),
 		];
 	}
 

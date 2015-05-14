@@ -20,12 +20,6 @@ class AclServiceProvider extends ServiceProvider
 		// services in the IoC container. If you wish, you may make additional
 		// methods or service providers to keep the code more focused and granular.
 		App::register('App\Modules\Acl\Providers\RouteServiceProvider');
-
-		//Bind AclRepository Facade to the IoC Container
-		App::bind('AclRepository', function()
-		{
-			return new App\Modules\Acl\Repositories\AclRepository;
-		});
 		
 		$this->registerNamespaces();
 	}

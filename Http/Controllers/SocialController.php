@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\Controller;
 use App\Modules\Acl\Social;
-
 use Illuminate\Http\Request;
 
 class SocialController extends Controller {
 
 	/**
 	 * Login a user using social plugins.
-	 *
+	 * 
 	 * @return Response
 	 */
 	public function login($type, Social $social, Request $request)
@@ -19,18 +18,19 @@ class SocialController extends Controller {
 
 	/**
 	 * Redirect to the register page with the user data.
-	 *
+	 * 
+	 * @param  object $user
 	 * @return Response
 	 */
 	public function redirectRegister($user)
 	{
 		$user_data = array('email' => $user->email, 'name' => $user->name);
-		return redirect('Acl/register')->with('user_data', $user_data);
+		return redirect('admin/Acl/register')->with('user_data', $user_data);
 	}
 
 	/**
 	 * Redirect to the home page when logged in.
-	 *
+	 * 
 	 * @return Response
 	 */
 	public function redirectLogin()

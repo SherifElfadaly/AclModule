@@ -20,19 +20,19 @@ class CreatePermissionsTable extends Migration
 				$table->timestamps();
 			});
 
-			DB::table('permissions')->insert([
-				array(
-					'key'  => 'show',
-					),
-				array(
-					'key'  => 'add',
-					),
-				array(
-					'key'  => 'edit',
-					),
-				array(
-					'key'  => 'delete',
-					),
+			\CMS::permissions()->insert([
+					[
+						'key'  => 'show',
+					],
+					[
+						'key'  => 'add',
+					],
+					[
+						'key'  => 'edit',
+					],
+					[
+						'key'  => 'delete',
+					],
 				]
 				);
 		}

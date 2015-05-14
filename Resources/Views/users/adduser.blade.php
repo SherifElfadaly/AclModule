@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 
 <div class="container">
@@ -70,7 +69,7 @@
 				<div class="col-sm-10">
 					<select multiple class="form-control" name="user_groups[]">
 						@foreach($groups as $group)
-						<option value="{{ $group->id }}">{{ $group->group_name }}</option>
+							<option value="{{ $group->id }}">{{ $group->group_name }}</option>
 						@endforeach
 					</select>
 				</div>

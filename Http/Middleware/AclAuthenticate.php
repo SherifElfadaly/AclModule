@@ -1,19 +1,9 @@
 <?php namespace App\Modules\Acl\Http\Middleware;
 
-use App\Modules\Acl\Repositories\AclRepository;
 use Illuminate\Contracts\Auth\Guard;
-
-use InstallationRepository;
 use Closure;
 
 class AclAuthenticate {
-
-	/**
-	 * The AclRepository implementation.
-	 *
-	 * @var AclRepository
-	 */
-	protected $aclRepo;
 
 	/**
 	 * The Guard implementation.
@@ -25,14 +15,12 @@ class AclAuthenticate {
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  AclRepository  $aclRepo
 	 * @param  Guard  $auth
 	 * @return void
 	 */
-	public function __construct(AclRepository $aclRepo, Guard $auth)
+	public function __construct(Guard $auth)
 	{
-		$this->aclRepo = $aclRepo;
-		$this->auth    = $auth;
+		$this->auth = $auth;
 	}
 
 	/**
@@ -52,7 +40,7 @@ class AclAuthenticate {
 			}
 			else
 			{
-				return redirect()->guest('Acl/login');
+				return redirect()->guest('admin/Acl/login');
 			}
 		}
 		

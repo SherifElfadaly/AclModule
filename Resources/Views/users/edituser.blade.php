@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 
 <div class="container">
@@ -23,10 +22,9 @@
 		</div>
 		@endif
 
-		<h3>Add New User</h3>
+		<h3>Edit User</h3>
 		<form class="form-horizontal" id="user_form_edit" method="post">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="hidden" name="password" value="{{ $user->password }}">
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">User Name</label>
 				<div class="col-sm-10">

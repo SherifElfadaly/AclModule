@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 
 <div class="container">
@@ -43,11 +42,11 @@
 				<label for="inputPassword3" class="col-sm-2 control-label">Is Active</label>
 				<div class="col-sm-10">
 					<input 
-					type="checkbox" 
-					id="is_acitve" 
-					name="is_active" 
+					type ="checkbox" 
+					id   ="is_acitve" 
+					name ="is_active" 
 					@if($group->is_active === 'True') 
-					checked
+						checked
 					@endif"
 					>
 					Is Active

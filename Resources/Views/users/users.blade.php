@@ -21,22 +21,22 @@
 					<td>{{ $user->email }}</td>
 					<td>{{ $user->user_groups }}</td>
 					<td>
-						@if( ! \AclRepository::userHasGroup($user->id, 'admin') && 
-								\AclRepository::can('edit', 'Users') && 
-								\Auth::user()->id !== $user->id)
+						@if( ! \CMS::users()->userHasGroup($user->id, 'admin') && 
+							   \CMS::permissions()->can('edit', 'Users') && 
+							   \Auth::user()->id !== $user->id)
 							<a 
 							class ="btn btn-default" 
-							href  ='{{ url("/Acl/users/edit/$user->id") }}' 
+							href  ='{{ url("admin/Acl/users/edit/$user->id") }}' 
 							role  ="button">
 							Edit
 							</a>
 						@endif
-						@if( ! \AclRepository::userHasGroup($user->id, 'admin') && 
-								\AclRepository::can('delete', 'Users') && 
-								\Auth::user()->id !== $user->id)
+						@if( ! \CMS::users()->userHasGroup($user->id, 'admin') && 
+							   \CMS::permissions()->can('delete', 'Users') && 
+							   \Auth::user()->id !== $user->id)
 							<a 
 							class ="btn btn-default" 
-							href  ='{{ url("/Acl/users/delete/$user->id") }}' 
+							href  ='{{ url("admin/Acl/users/delete/$user->id") }}' 
 							role  ="button">
 							Delete
 							</a>

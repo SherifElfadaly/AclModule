@@ -12,15 +12,15 @@ class CreateAclPermissions extends Migration
 	 */
 	public function up()
 	{
-		foreach (\InstallationRepository::getModuleParts('acl') as $modulePart) 
+		foreach (\CMS::coreModuleParts()->getModuleParts('acl') as $modulePart) 
 		{
-			\AclRepository::insertDefaultItemPermissions(
-				$modulePart->part_key, 
-				$modulePart->id, 
-				[
-				'admin'   => ['show', 'add', 'edit', 'delete'],
-				'manager' => ['show', 'edit']
-				]);
+			\CMS::permissions()->insertDefaultItemPermissions(
+				                 $modulePart->part_key, 
+				                 $modulePart->id, 
+				                 [
+					                 'admin'   => ['show', 'add', 'edit', 'delete'],
+					                 'manager' => ['show', 'edit']
+				                 ]);
 		}
 	}
 
@@ -31,9 +31,9 @@ class CreateAclPermissions extends Migration
 	 */
 	public function down()
 	{
-		foreach (\InstallationRepository::getModuleParts('acl') as $modulePart) 
+		foreach (\CMS::coreModuleParts()->getModuleParts('acl') as $modulePart) 
 		{
-			\AclRepository::deleteItemPermissions($modulePart->part_key);
+			\CMS::deleteItemPermissions($modulePart->part_key);
 		}
 	}
 }

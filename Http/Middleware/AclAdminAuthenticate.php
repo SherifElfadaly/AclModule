@@ -1,19 +1,9 @@
 <?php namespace App\Modules\Acl\Http\Middleware;
 
-use App\Modules\Acl\Repositories\AclRepository;
 use Illuminate\Contracts\Auth\Guard;
-
-use InstallationRepository;
 use Closure;
 
 class AclAdminAuthenticate {
-
-	/**
-	 * The AclRepository implementation.
-	 *
-	 * @var AclRepository
-	 */
-	protected $aclRepo;
 
 	/**
 	 * The Guard implementation.
@@ -25,14 +15,12 @@ class AclAdminAuthenticate {
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  AclRepository  $aclRepo
 	 * @param  Guard  $auth
 	 * @return void
 	 */
-	public function __construct(AclRepository $aclRepo, Guard $auth)
+	public function __construct(Guard $auth)
 	{
-		$this->aclRepo = $aclRepo;
-		$this->auth    = $auth;
+		$this->auth = $auth;
 	}
 
 	/**
@@ -43,7 +31,7 @@ class AclAdminAuthenticate {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next)
-	{	
+	{
 		if ($this->auth->guest())
 		{
 			if ($request->ajax())
@@ -52,10 +40,10 @@ class AclAdminAuthenticate {
 			}
 			else
 			{
-				return redirect()->guest('Acl/login');
+				return redirect()->guest('admin/Acl/login');
 			}
 		}
-		elseif ( ! $this->aclRepo->userHasGroup(\Auth::user()->id, 'admin')) 
+		elseif ( ! \CMS::users()->userHasGroup(\Auth::user()->id, 'admin')) 
 		{
 			abort(403, 'Unauthorized');
 		}

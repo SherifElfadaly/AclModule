@@ -4,7 +4,7 @@
     "version": "1.3",
     "description": "Marvel Access Control List",
     "repo_link": "https:\/\/github.com\/SherifElfadaly\/MarvelACL.git",
-    "type" : "plugin",
+    "type": "plugin",
     "enabled": true,
     "module_parts": ["Users", "Groups"]
 }

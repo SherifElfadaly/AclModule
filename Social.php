@@ -1,25 +1,44 @@
 <?php namespace App\Modules\Acl;
 
 use Laravel\Socialite\Contracts\Factory as Socialite;
-use App\Modules\Acl\Repositories\AclRepository;
 
 class Social {
 	
+	/**
+	 * The socialite implementation.
+	 * 
+	 * @var socialite
+	 */
 	private $socialite;
-	private $acl;
 
-	public function __construct(AclRepository $acl, Socialite $socialite)
+	/**
+	 * Create new Social instance.
+	 * 
+	 * @param Socialite $socialite
+	 */
+	public function __construct(Socialite $socialite)
 	{
 		$this->socialite = $socialite;
-		$this->acl     = $acl;
 	}
 
+	/**
+	 * Send request to the social if the code 
+	 * dosen't exists , get the social user data
+	 * if the code exists and check if the user is
+	 * registerd then log in the user and if not registerd
+	 * then redirect to register page with the social user data.
+	 * 
+	 * @param  string $code     the code returned by the social
+	 * @param  string $type     the social type
+	 * @param  object $listener the social controller object
+	 * @return response
+	 */
 	public function check($code, $type, $listener)
 	{
 		if ( ! $code) return $this->socialite->with($type)->redirect();
 		
 		$social_user    = $this->socialite->with($type)->user();
-		$registerd_user = $this->acl->findUserByEmail($social_user->email);
+		$registerd_user = \CMS::users()->findBy('email', $social_user->email);
 
 		if ( ! $registerd_user) 
 		{

@@ -19,18 +19,18 @@
 					<td>{{ $group->group_name }}</td>
 					<td>{{ $group->is_active }}</td>
 					<td>
-						@if(\AclRepository::can('edit', 'Groups'))
+						@if(\CMS::permissions()->can('edit', 'Groups'))
 							<a 
 							class ="btn btn-default" 
-							href  ='{{ url("/Acl/groups/edit/$group->id") }}' 
+							href  ='{{ url("admin/Acl/groups/edit/$group->id") }}' 
 							role  ="button">
 							Edit
 							</a>
 						@endif
-						@if(\AclRepository::can('delete', 'Groups'))
+						@if(\CMS::permissions()->can('delete', 'Groups'))
 							<a 
 							class ="btn btn-default" 
-							href  ='{{ url("/Acl/groups/delete/$group->id") }}' 
+							href  ='{{ url("admin/Acl/groups/delete/$group->id") }}' 
 							role  ="button">
 							Delete
 							</a>

@@ -10,12 +10,9 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::group(['prefix' => 'Acl'], function() {
+Route::group(['prefix' => 'admin/Acl'], function() {
 
-	//Social Login
 	Route::get('social/{type?}', 'SocialController@login');
-
-	//Users, Permissions, Groups, Register, Login and Password Pages
 	Route::controllers([
 		'/users'            => 'AclUserController',
 		'/permissions'      => 'PermissionController',

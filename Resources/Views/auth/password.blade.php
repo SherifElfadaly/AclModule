@@ -1,6 +1,6 @@
 @extends('app')
-
 @section('content')
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -24,7 +24,7 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/Acl/password/email') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('admin/Acl/password/email') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">

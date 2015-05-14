@@ -1,6 +1,6 @@
 @extends('app')
-
 @section('content')
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -18,7 +18,7 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('Acl/login') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('admin/Acl/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="redirect" value="{{ url('admin') }}">
 
@@ -52,15 +52,15 @@
 									Login
 								</button>
 
-								<a href="{{ url('/Acl/password/email') }}">Forgot Your Password?</a>
+								<a href="{{ url('admin/Acl/password/email') }}">Forgot Your Password?</a>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<a href="{{ url('Acl/social/facebook') }}"><i class="fa fa-facebook-square fa-2x"></i></a>
-								<a href="{{ url('Acl/social/twitter') }}"><i class="fa fa-twitter-square fa-2x"></i></a>
-								<a href="{{ url('Acl/social/google') }}"><i class="fa fa-google-plus-square fa-2x"></i></a>
+								<a href="{{ url('admin/Acl/social/facebook') }}"><i class="fa fa-facebook-square fa-2x"></i></a>
+								<a href="{{ url('admin/Acl/social/twitter') }}"><i class="fa fa-twitter-square fa-2x"></i></a>
+								<a href="{{ url('admin/Acl/social/google') }}"><i class="fa fa-google-plus-square fa-2x"></i></a>
 							</div>
 						</div>
 					</form>
