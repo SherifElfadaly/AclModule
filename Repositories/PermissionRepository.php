@@ -4,7 +4,6 @@ use App\AbstractRepositories\AbstractRepository;
 use App\Modules\Acl\Group;
 use DB;
 
-
 class PermissionRepository extends AbstractRepository
 {
 	/**

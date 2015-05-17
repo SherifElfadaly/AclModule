@@ -94,7 +94,7 @@ class AclUserController extends BaseController {
 	 * @return Response
 	 */
 	public function getDelete($id)
-	{		
+	{
 		if( ! \CMS::users()->userHasGroup($id, 'admin') && \Auth::user()->id !== $id)
 		{
 			\CMS::users()->delete($id);
