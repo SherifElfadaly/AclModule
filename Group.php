@@ -29,7 +29,7 @@ class Group extends Model {
 	 * Get True or False based on the value
 	 * of is active field.
 	 * 
-	 * @param  inteher $value 
+	 * @param  integer $value 
 	 * @return string
 	 */
 	public function getIsActiveAttribute($value)
@@ -44,7 +44,10 @@ class Group extends Model {
 	 */
 	public function users()
 	{
-		return $this->belongsToMany('\App\Modules\Acl\AclUser', 'users_groups', 'group_id', 'user_id')->withTimestamps();
+		return $this->belongsToMany('\App\Modules\Acl\AclUser', 
+			                        'users_groups', 
+			                        'group_id', 
+			                        'user_id')->withTimestamps();
 	}
 
 	/**
@@ -54,9 +57,11 @@ class Group extends Model {
 	 */
 	public function permissions()
 	{
-		return $this->belongsToMany('\App\Modules\Acl\Permission', 'groups_permissions', 'group_id', 'permission_id')->
-		withPivot('item_id', 'item_type')->
-		withTimestamps();
+		return $this->belongsToMany('\App\Modules\Acl\Permission', 
+			                        'groups_permissions', 
+			                        'group_id', 
+			                        'permission_id')->
+			                        withPivot('item_id', 'item_type')->withTimestamps();
 	}
 
 	public static function boot()

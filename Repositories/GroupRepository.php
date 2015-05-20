@@ -5,7 +5,7 @@ use App\AbstractRepositories\AbstractRepository;
 class GroupRepository extends AbstractRepository
 {
 	/**
-	 * Return the module full namespace.
+	 * Return the model full namespace.
 	 * 
 	 * @return string
 	 */
@@ -25,11 +25,11 @@ class GroupRepository extends AbstractRepository
 	}
 
 	/**
-	 * Assign the given list of group ids to
+	 * Replace with the given list of group ids to
 	 * the given object.
 	 * 
 	 * @param object $obj
-	 * @param array $data
+	 * @param array  $data
 	 * @return void
 	 */
 	public function addGroups($obj, $data)
@@ -39,8 +39,7 @@ class GroupRepository extends AbstractRepository
 	}
 
 	/**
-	 * Delete the given list of group ids from
-	 * the given object.
+	 * Delete all groups from the given object.
 	 * 
 	 * @param  object $obj
 	 * @return void

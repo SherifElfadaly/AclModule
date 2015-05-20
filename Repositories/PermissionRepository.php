@@ -7,7 +7,7 @@ use DB;
 class PermissionRepository extends AbstractRepository
 {
 	/**
-	 * Return the module full namespace.
+	 * Return the model full namespace.
 	 * 
 	 * @return string
 	 */

@@ -5,7 +5,7 @@ use App\AbstractRepositories\AbstractRepository;
 class UserRepository extends AbstractRepository
 {
 	/**
-	 * Return the module full namespace.
+	 * Return the model full namespace.
 	 * 
 	 * @return string
 	 */

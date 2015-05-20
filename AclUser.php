@@ -6,7 +6,7 @@ use App\User;
 class AclUser extends User {
 
 	/**
-	 * The fillable implementation.
+	 * Specify the fields allowed for the mass assignment.
 	 * 
 	 * @var fillable
 	 */
