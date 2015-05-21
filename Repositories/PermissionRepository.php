@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Acl\Repositories;
 
 use App\AbstractRepositories\AbstractRepository;
-use App\Modules\Acl\Group;
 use DB;
 
 class PermissionRepository extends AbstractRepository
@@ -139,14 +138,14 @@ class PermissionRepository extends AbstractRepository
 					$permissions[] = $this->model->firstOrCreate(['key' => $permission])->id;
 				}
 				
-				Group::firstOrCreate(['group_name' => $key])->permissions()->attach(
+				\CMS::groups()->model->firstOrCreate(['group_name' => $key])->permissions()->attach(
 						$permissions, ['item_id' => $itemId, 'item_type' => $item]
 						);
 			}
 		}
 		else
 		{
-			Group::with('permissions')->whereIn('group_name', ['admin', 'manager', 'user'])->get()->each(
+			\CMS::groups()->model->with('permissions')->whereIn('group_name', ['admin', 'manager', 'user'])->get()->each(
 				function($group) use ($item, $itemId){
 			       	if($group->group_name == 'admin')
 			       	{

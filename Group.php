@@ -29,7 +29,7 @@ class Group extends Model {
 	 * Get True or False based on the value
 	 * of is active field.
 	 * 
-	 * @param  integer $value 
+	 * @param  boolean $value 
 	 * @return string
 	 */
 	public function getIsActiveAttribute($value)

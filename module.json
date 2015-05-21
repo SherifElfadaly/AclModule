@@ -6,5 +6,6 @@
     "repo_link": "https:\/\/github.com\/SherifElfadaly\/MarvelACL.git",
     "type": "plugin",
     "enabled": true,
-    "module_parts": ["Users", "Groups"]
+    "module_parts": ["Users", "Groups"],
+    "order" : 2
 }

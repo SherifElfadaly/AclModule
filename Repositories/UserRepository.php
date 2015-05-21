@@ -51,6 +51,6 @@ class UserRepository extends AbstractRepository
 	public function search($query)
 	{
 		return $this->model->whereIn('id', \CMS::languageContents()->search($query, 'user'))->
-		                orWhere('name', 'like', '%' . $query . '%')->lists('id');
+		                     orWhere('name', 'like', '%' . $query . '%')->lists('id');
 	}
 }

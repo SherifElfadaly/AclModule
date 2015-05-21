@@ -21,7 +21,8 @@ class CreateGroupsTable extends Migration
 				$table->timestamps();
 			});
 
-			\CMS::groups()->insert([
+			\CMS::groups()->insert(
+				[
 					[
 						'group_name' => 'admin',
 						'is_active'  => '1'
