@@ -13,6 +13,17 @@ class AclUser extends User {
 	protected $fillable = ['name', 'email', 'password'];
 
 	/**
+	 * Get the name that will be displayed in the 
+	 * menu link.
+	 * 
+	 * @return string
+	 */
+	public function getLinkNameAttribute()
+	{
+		return $this->attributes['name'];
+	}
+
+	/**
 	 * Get all groups seperated by |.
 	 * 
 	 * @return string

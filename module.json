@@ -7,5 +7,6 @@
     "type": "plugin",
     "enabled": true,
     "module_parts": ["Users", "Groups"],
+    "module_parts_menu": ["Users"],
     "order" : 2
 }
