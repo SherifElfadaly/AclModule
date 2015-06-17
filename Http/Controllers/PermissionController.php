@@ -40,7 +40,7 @@ class PermissionController extends BaseController {
 	 * 
 	 * @param  Request $request
 	 * @param  string  $item
-	 * @param  itneger  $itemId
+	 * @param  integer  $itemId
 	 * @return Response
 	 */
 	public function postShow(Request $request, $item, $itemId)
