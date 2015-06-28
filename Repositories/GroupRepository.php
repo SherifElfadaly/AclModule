@@ -1,6 +1,6 @@
 <?php namespace App\Modules\Acl\Repositories;
 
-use App\AbstractRepositories\AbstractRepository;
+use App\Modules\Core\AbstractRepositories\AbstractRepository;
 
 class GroupRepository extends AbstractRepository
 {
