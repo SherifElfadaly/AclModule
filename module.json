@@ -3,7 +3,7 @@
     "slug": "acl",
     "version": "1.0",
     "description": "Marvel Access Control List",
-    "repo_link": "https:\/\/github.com\/SherifElfadaly\/MarvelACL.git",
+    "repo_link": "https://github.com/SherifElfadaly/AclModule.git",
     "type": "plugin",
     "enabled": true,
     "module_parts": ["Users", "Groups"],

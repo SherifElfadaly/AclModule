@@ -3,6 +3,11 @@
 
 <div class="container">
 	<div class="col-sm-9">
+
+		<h3>All Groups</h3>
+		@if(\CMS::permissions()->can('add', 'Groups'))
+			<a href='{{ url("admin/Acl/groups/create") }}' class="btn btn-default">Add Groups</a>
+		@endif
 		<table class="table table-striped">
 			<thead>
 				<tr>

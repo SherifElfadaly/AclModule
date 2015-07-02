@@ -3,6 +3,11 @@
 
 <div class="container">
 	<div class="col-sm-9">
+
+		<h3>All Users</h3>
+		@if(\CMS::permissions()->can('add', 'Users'))
+			<a href='{{ url("admin/Acl/users/create") }}' class="btn btn-default">Add Users</a>
+		@endif
 		<table class="table table-striped">
 			<thead>
 				<tr>

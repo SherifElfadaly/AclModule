@@ -21,7 +21,12 @@
 			</ul>
 		</div>
 		@endif
-
+		
+		<div class="row">
+			<div class="col-sm-3 col-sm-offset-9">
+				<a href='{{ url("admin/Acl/groups") }}' class="btn btn-block btn-default">back</a>
+			</div>
+		</div>
 		<h3>Add New Group</h3>
 		<form class="form-horizontal" id="group_form_edit" method="post">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
